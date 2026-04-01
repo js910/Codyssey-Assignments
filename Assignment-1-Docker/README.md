@@ -192,7 +192,6 @@ branch.main.merge=refs/heads/main
 ## 9. Github 설정 및 연동 증거
 
 * **Repository 주소:** [https://github.com/js910/Codyssey-Assignments](https://github.com/js910/Codyssey-Assignments)
-* **최종 커밋 로그:** `feat: finalize all assignment files`
 
    > <img src="./11-docker-git.png" width="600">
 
