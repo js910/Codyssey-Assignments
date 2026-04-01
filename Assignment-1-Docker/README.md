@@ -1,8 +1,10 @@
 # AI/SW 개발 워크스테이션 구축 과제
-<img src="https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white">
-<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
-<img src="https://img.shields.io/badge/Zsh-4EAA25?style=for-the-badge&logo=zsh&logoColor=white">
-<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
+<p>
+   <img src="https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white">
+   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+   <img src="https://img.shields.io/badge/Zsh-4EAA25?style=for-the-badge&logo=zsh&logoColor=white">
+   <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
+</p>
 
 <br>
 
@@ -99,17 +101,21 @@ branch.main.merge=refs/heads/main
 
 ### 1) Docker 설치 및 점검
 * **버전 맟 서버 정보 (`docker --version`, `docker info`)**
+
   <img src="./04-docker-info.png" width="600">
 
 * **운영 상태 통합 확인 (`images`, `ps -a`, `logs`, `stats`)**
+
   <img src="./05-docker-info2.png" width="600">
   > `docker images`와 `ps -a`를 통해 로컬 이미지 목록과 컨테이너 실행 이력을 확인하였으며, `logs`와 `stats` 명령어로 컨테이너의 내부 출력 기록 및 실시간 자원 사용률을 검증함.
 
 * **Hello-World 구동**
+
   <img src="./03-docker-hello.png" width="600">
 
 ### 2) Ubuntu 컨테이너 실습 분석
 * **컨테이너 내부 진입 및 명령어(`ls`, `echo`) 수행**
+
   <img src="./06-docker-ubuntu.png" width="600">
 
 * **컨테이너 유지 방식 관찰 정리**
