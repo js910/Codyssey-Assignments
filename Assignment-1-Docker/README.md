@@ -19,7 +19,8 @@
 
 ## 4. 터미널 조작 로그
 ### 1. Git 설정 확인
-![깃허브 연결](01-github-link.png)
+**깃허브 연결**
+> <img src="./01-github-link.png" width="500">
 ```bash
 izzzar00788078@c6r9s1 Assignment-1-Docker % git config --global user.name "js910"
 izzzar00788078@c6r9s1 Assignment-1-Docker % git config --global user.email "jysong0914@gmail.com"
@@ -65,4 +66,5 @@ branch.main.merge=refs/heads/main
 * **원인가설:** GitHub 웹사이트에서 직접 README를 수정했기 때문에, 원격 저장소에 로컬에는 없는 새로운 커밋이 생겨서 이력이 어긋났을 것으로 추측함. `pull`을 하면 해결될 것이라 예상함.
 * **확인:** `git pull`을 실행했으나 `fatal: Need to specify how to reconcile divergent branches` 메시지가 출력됨. 깃이 두 갈래로 갈라진 이력을 합치는 방법(Merge 또는 Rebase)을 정해주지 않아 멈춘 것을 확인.
 * **해결:** 이력을 하나로 묶어주는 가장 확실한 방법인 **Merge** 방식을 쓰기 위해 `git config pull.rebase false` 설정을 적용함. 이후 다시 `pull`을 수행하여 `Merge made by the 'ort' strategy` 메시지와 함께 이력을 성공적으로 합침.
-    ![Git Troubleshooting](./02-trouble-git.png)
+**[참고] 트러블슈팅 실행 화면**
+> <img src="./02-trouble-git.png" width="500">
