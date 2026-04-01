@@ -64,8 +64,8 @@ branch.main.merge=refs/heads/main
 > **Note:** 상세 실행 로그는 [assignment_log.txt](./assignment_log.txt) 파일에서 확인 가능합니다.
 <br>
 
-### 5. 트러블슈팅 (Troubleshooting)
-#### ① git push rejected & pull divergence
+## 5. 트러블슈팅 (Troubleshooting)
+### ① git push rejected & pull divergence
 * **문제:** 로컬에서 작업 완료 후 `git push`를 시도했으나 `[rejected]` 에러가 발생하며 거절당함.
 * **원인가설:** GitHub 웹사이트에서 직접 README를 수정했기 때문에, 원격 저장소에 로컬에는 없는 새로운 커밋이 생겨서 이력이 어긋났을 것으로 추측함. `pull`을 하면 해결될 것이라 예상함.
 * **확인:** `git pull`을 실행했으나 `fatal: Need to specify how to reconcile divergent branches` 메시지가 출력됨. 깃이 두 갈래로 갈라진 이력을 합치는 방법(Merge 또는 Rebase)을 정해주지 않아 멈춘 것을 확인.
