@@ -56,6 +56,20 @@ branch.main.merge=refs/heads/main
    - `chmod 755 sample.txt`: 실행 권한 부여 (rwxr-xr-x)
    - `chmod 644 sample.txt`: 읽기/쓰기 권한으로 복구 (rw-r--r--)
 
+> ### 권한 숫자 계산법
+> 
+> 권한은 **4(읽기), 2(쓰기), 1(실행)**의 조합으로 구성됩니다.
+>
+> | 숫자 | 권한 (rwx) | 디렉토리에서의 의미 |
+> | :--- | :--- | :--- |
+> | **7** | `rwx` | 읽기, 쓰기, **접근(cd)** 모두 가능 |
+> | **5** | `r-x` | 읽기 및 **접근(cd)** 가능 (일반적) |
+> | **4** | `r--` | 목록만 확인 가능 (**접근 불가**) |
+>
+> **주의사항**
+> * **`-R` 옵션:** 디렉토리 내부 모든 파일에 일괄 적용할 때 사용
+> * **홀수 권한:** 디렉토리는 실행 권한(+1)이 있어야 `cd`로 입장 가능
+
 3. **파일 관리 (`cp`, `mv`, `rm`)**
    - `cp sample.txt backup.txt`: 파일 복사
    - `mv backup.txt renamed.txt`: 파일 이름 변경
@@ -64,7 +78,16 @@ branch.main.merge=refs/heads/main
 > **Note:** 상세 실행 로그는 [assignment_log.txt](./assignment_log.txt) 파일에서 확인 가능합니다.
 <br>
 
-## 5. 트러블슈팅 (Troubleshooting)
+### 5. 도커 실행 결과
+
+* **실행 명령어:** `docker run hello-world`
+* **결과 요약:** 도커 클라이언트가 `hello-world`를 가져오고, 컨테이너를 생성하여 실행하는 데 성공함.
+> **도커 실행 성공 화면**
+>
+> <img src="./03-docker-hello.png" width="600">
+<br>
+
+## 6. 트러블슈팅
 ### ① git push rejected & pull divergence
 * **문제:** 로컬에서 작업 완료 후 `git push`를 시도했으나 `[rejected]` 에러가 발생하며 거절당함.
 * **원인가설:** GitHub 웹사이트에서 직접 README를 수정했기 때문에, 원격 저장소에 로컬에는 없는 새로운 커밋이 생겨서 이력이 어긋났을 것으로 추측함. `pull`을 하면 해결될 것이라 예상함.
