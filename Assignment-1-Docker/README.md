@@ -1,11 +1,10 @@
 # AI/SW 개발 워크스테이션 구축 과제
+<img src="https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white">
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+<img src="https://img.shields.io/badge/Zsh-4EAA25?style=for-the-badge&logo=zsh&logoColor=white">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
 
-<p align="center">
-  <img src="https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white">
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
-  <img src="https://img.shields.io/badge/Zsh-4EAA25?style=for-the-badge&logo=zsh&logoColor=white">
-  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
-</p>
+<br>
 
 ## 1. 프로젝트 개요
 - 목표: 도커를 이용한 로컬 개발 환경 구축 및 웹 서버 컨테이너화
@@ -38,7 +37,7 @@
 * **해결:** 이력을 하나로 묶어주는 **Merge** 방식을 쓰기 위해 `pull.rebase false` 설정을 적용함. 이후 다시 `pull`을 수행하여 `Merge made by the 'ort' strategy` 메시지와 함께 이력을 성공적으로 합침.
 > <img src="./02-trouble-git.png" width="600">
 
----
+<br>
 
 ## 5. 터미널 조작 로그
 ### 1) Git 설정 확인
@@ -94,7 +93,7 @@ branch.main.merge=refs/heads/main
 
 > **Note:** 상세 실행 로그는 [assignment_log.txt](./assignment_log.txt) 파일에서 확인 가능합니다.
 
----
+<br>
 
 ## 6. Docker 운영/검증 로그
 
@@ -119,8 +118,6 @@ branch.main.merge=refs/heads/main
   > | **run -it** | 컨테이너 생성과 동시에 터미널을 연결 | `exit` 시 컨테이너도 함께 **종료** |
   > | **exec** | 실행 중인 곳에 **새 프로세스** 실행 | `exit` 후에도 컨테이너 **유지** |
   > | **attach** | 실행 중인 **기존 프로세스**에 연결 | `exit` 시 컨테이너가 **정지**될 수 있음. |
-
----
 
 <br>
 
