@@ -17,7 +17,7 @@
 - OS: macOS (OrbStack)
 - Shell: zsh
 - Docker Version: 28.5.2
-- Git Version: (나중에 채우기)
+- Git Version: 2.53.0
 
 <br>
 
@@ -32,12 +32,19 @@
 <br>
 
 ## 4. 트러블슈팅
-### [Issue] git push rejected & pull divergence
+### [Issue #1] git push rejected 및 pull divergent
 * **문제:** 로컬 작업 후 `push`를 시도했으나 `[rejected]` 에러가 발생하며 거절당함.
 * **원인가설:** 웹에서도 수정했기 때문에, 원격 저장소에 로컬에 없는 커밋이 생겨 이력이 어긋났을 것으로 추측. `pull`을 하면 해결될 것이라 예상함.
 * **확인:** `pull`을 실행했으나 `fatal: Need to specify how to reconcile divergent branches` 메시지가 출력됨. 깃이 두 갈래로 갈라진 이력을 합치는 방법(Merge 또는 Rebase)을 정해주지 않아 멈춘 것을 확인.
 * **해결:** 이력을 하나로 묶어주는 **Merge** 방식을 쓰기 위해 `pull.rebase false` 설정을 적용함. 이후 다시 `pull`을 수행하여 `Merge made by the 'ort' strategy` 메시지와 함께 이력을 성공적으로 합침.
 > <img src="./02-trouble-git.png" width="600">
+
+### [Issue #2] 컨테이너 네트워크 설정 오류
+* **문제:** docker run 실행 시 port is already allocated 에러와 함께 컨테이너 생성 실패.
+* **원인가설:** 이전 실습에서 포트를 점유하고 있는 컨테이너가 존재함.
+* **확인:** docker ps를 통해 현재 8080 포트가 활성화 상태임을 검증함.
+* **해결 및 대안:** 기존 컨테이너를 강제로 끄지 않고 새로운 실습을 병행하기 위해, 중복되지 않는 8081 포트를 할당함.
+> <img src="./12-trouble-docker.png" width="600">
 
 <br>
 
@@ -67,6 +74,7 @@ branch.main.merge=refs/heads/main
 
 1. **디렉토리 생성 및 이동**
    - `mkdir test`: 실습용 디렉토리 생성
+   - `ls -la`: 숨김 파일을 포함한 전체 목록 및 권한 확인
    - `cd test`: 디렉토리 진입
 
 2. **파일 생성 및 권한 변경 (`chmod`)**
@@ -94,6 +102,10 @@ branch.main.merge=refs/heads/main
    - `rm sample.txt`: 원본 파일 삭제
 
 > **Note:** 상세 실행 로그는 [assignment_log.txt](./assignment_log.txt) 파일에서 확인 가능합니다.
+
+3. **절대경로 상대경로**
+* **절대경로:** 루트(/) 로부터의 고정 주소
+* **상대경로:** 현재 작업 디렉토리 기준 경로
 
 <br>
 
@@ -131,7 +143,7 @@ branch.main.merge=refs/heads/main
 ## 7. Dockerfile 기반 웹 서버 컨테이너
 
 ### 1) 커스텀 이미지 빌드 및 실행
-`Dockerfile`을 작성하여 Nginx 베이스 이미지에 직접 제작한 `index.html`을 포함시킨 커스텀 이미지를 생성
+`Dockerfile`을 작성하여 Nginx:alpine 베이스 이미지에 직접 제작한 `index.html`을 포함시킨 커스텀 이미지를 생성
 
 * **Dockerfile 작성**
   > <img src="./07-docker-file.png" width="600">
@@ -149,10 +161,21 @@ branch.main.merge=refs/heads/main
 
 <br>
 
-## 8. 볼륨 영속성 증거
-컨테이너는 삭제되면 내부 데이터가 사라지는 '휘발성'을 가짐
+## 8. 코드 동기화 및 데이터 영속성
 
-이를 보완하기 위해 Docker Volume을 생성하고, 컨테이너 삭제 후에도 데이터가 보존되는 **영속성**을 테스트
+### 1) Bind Mount
+호스트의 작업 디렉토리를 컨테이너와 연결하여, 이미지 재빌드 없이 소스 수정을 실시간으로 반영
+
+   > <img src="./13-docker-bind1.png" width="600">
+   > <img src="./14-docker-bind2.png" width="600">
+
+* **브라우저 접속 결과**
+   > 빌드 과정 없이 echo 명령만으로 localhost:8081의 화면이 바뀐 것을 확인
+
+   > <img src="./15-docker-bind3.png" width="600">
+
+### 2) Docker Volume
+컨테이너는 삭제되면 내부 데이터가 사라지는 휘발성 문제를 해결하기 위해, Docker Volume을 생성하여 컨테이너 삭제 후에도 데이터가 보존되는 **영속성**을 검증함.
 
   > * `docker images`: 생성된 `codyssey-logo` 이미지 확인.
 
@@ -178,8 +201,6 @@ branch.main.merge=refs/heads/main
 ## 10. 구조적 원칙 및 설계 고찰
 실습을 통해 확인한 Docker의 설계 원칙은 다음과 같습니다.
 
----
-
 #### 1. 이미지와 컨테이너의 분리
 * 이미지는 변경 불가능한 **설계도**이며, 컨테이너는 이 설계도를 기반으로 실행됩니다.
 * 이 구조는 **환경 불일치 문제를 해결**하며, 배포의 신뢰성을 보장합니다.
@@ -194,3 +215,7 @@ branch.main.merge=refs/heads/main
 * **데이터 영속성**: 컨테이너는 삭제 및 교체가 가능합니다. 따라서 보존이 필요한 데이터는 **Volume**에 저장해 데이터를 안전하게 유지합니다.
 
 > **결론적으로, Docker는 애플리케이션을 환경으로부터 독립시켜 표준화된 방식으로 관리하게 해주는 클라우드 인프라의 핵심 기술임을 확인하였습니다.**
+
+> **추가** Git: 내 컴퓨터(로컬)에서 코드의 변화를 기록하고 관리하는 도구, Github: Git으로 관리한 기록을 클라우드에 올려서 다른 사람과 공유하고 협업하는 플랫폼
+
+> **추가** OrbStack: Docker Desktop 대비 가볍고 빠른 실행 속도를 제공하며, 별도의 `sudo` 권한 없이도 컨테이너를 관리할 수 있음.
