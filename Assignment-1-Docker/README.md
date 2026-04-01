@@ -138,6 +138,7 @@ branch.main.merge=refs/heads/main
 
 * **이미지 빌드 및 컨테이너 실행 확인 (`docker build`, `docker ps`)**
   > <img src="./08-docker-file2.png" width="600">
+
   > * `docker ps`: 8080 포트가 매핑된 `codyssey-web` 컨테이너가 `Up` 상태임을 검증.
   
 ### 2) 서비스 접속 확인 (Port Mapping)
@@ -145,38 +146,51 @@ branch.main.merge=refs/heads/main
 
 * **브라우저 접속 결과**
   > <img src="./09-docker-logo.png" width="600">
-  > **접속 주소:** `http://localhost:8080`
 
 <br>
 
 ## 8. 볼륨 영속성 증거
 컨테이너는 삭제되면 내부 데이터가 사라지는 '휘발성'을 가짐
-이를 보완하기 위해 Docker Volume을 생성하고, 컨테이너 삭제 후에도 데이터가 보존되는 **영속성(Persistence)**을 테스트
+
+이를 보완하기 위해 Docker Volume을 생성하고, 컨테이너 삭제 후에도 데이터가 보존되는 **영속성**을 테스트
 
   > * `docker images`: 생성된 `codyssey-logo` 이미지 확인.
 
-* **검증 로그 및 결과**
-### 1) 볼륨 생성 및 데이터 기입 (컨테이너 이름: data-check)
-### 2) 컨테이너 삭제
-### 3) 영속성 확인: 새 컨테이너에서 기존 볼륨을 연결하여 데이터가 남았는지 확인
-
   > <img src="./10-docker-persistent.png" width="600">
 
-### 결과: "Log: 26-04-01 Success" 출력 확인 (영속성 확보 성공)
+| 단계 | 작업 내용 | 명령어/결과 확인 |
+| :--- | :--- | :--- |
+| **1단계** | 데이터 볼륨 생성 및 파일 기입 | `docker volume create codyssey-data` |
+| **2단계** | 컨테이너 강제 삭제 | `docker rm data-check` |
+| **3단계** | 데이터 복구 및 영속성 확인 | `cat /mnt/save.txt` → **Success 확인** |
 
 <br>
 
 ## 9. Github 설정 및 연동 증거
 
-  > <img src="./11-docker-git.png" width="600">
+* **Repository 주소:** [https://github.com/js910/Codyssey-Assignments](https://github.com/js910/Codyssey-Assignments)
+* **최종 커밋 로그:** `feat: finalize all assignment files`
+
+   > <img src="./11-docker-git.png" width="600">
 
 <br>
 
-## 10. 구조적 원착 및 설계 고찰
+## 10. 구조적 원칙 및 설계 고찰
 실습을 통해 확인한 Docker의 설계 원칙은 다음과 같습니다.
 
-### 1. 이미지와 컨테이너의 분리
-### 2. 격리된 실행 환경
-### 3. 포트 매핑 및 스토리지 연결
+---
 
-~~하기 때문에 이런 설계가 필요합니다.
+#### 1. 이미지와 컨테이너의 분리
+* 이미지는 변경 불가능한 **설계도**이며, 컨테이너는 이 설계도를 기반으로 실행됩니다.
+* 이 구조는 **환경 불일치 문제를 해결**하며, 배포의 신뢰성을 보장합니다.
+
+#### 2. 격리된 실행 환경
+* 컨테이너는 호스트 OS를 공유하지만, 파일 시스템과 네트워크는 격리되어 운영됩니다.
+* 이는 서로 다른 버전의 라이브러리를 사용하는 서비스를 하나의 서버에서 **충돌 없이 운영**할 수 있습니다.
+
+#### 3. 포트 매핑 및 데이터 영속성
+* 컨테이너 내부 자원(포트)을 호스트 자원과 연결해 사용합니다.
+* **Port Mapping**: 내부 설정을 수정하지 않고도 외부 접속 경로를 유연하게 운영합니다.
+* **데이터 영속성**: 컨테이너는 삭제 및 교체가 가능합니다. 따라서 보존이 필요한 데이터는 **Volume**에 저장해 데이터를 안전하게 유지합니다.
+
+> **결론적으로, Docker는 애플리케이션을 환경으로부터 독립시켜 표준화된 방식으로 관리하게 해주는 클라우드 인프라의 핵심 기술임을 확인하였습니다.**
