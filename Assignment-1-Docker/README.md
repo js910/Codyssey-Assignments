@@ -25,9 +25,9 @@
 - [x] 터미널 기초 실습 및 로그 기록
 - [x] 파일 권한(755, 644) 실습
 - [x] Docker 설치 및 hello-world 확인
-- [ ] Dockerfile 작성 및 커스텀 이미지 빌드
-- [ ] 포트매핑 및 볼륨 설정
-- [ ] Github 연동 완료
+- [x] Dockerfile 작성 및 커스텀 이미지 빌드
+- [x] 포트매핑 및 볼륨 설정
+- [x] Github 연동 완료
 
 <br>
 
@@ -107,6 +107,7 @@ branch.main.merge=refs/heads/main
 * **운영 상태 통합 확인 (`images`, `ps -a`, `logs`, `stats`)**
 
   <img src="./05-docker-info2.png" width="600">
+
   > `docker images`와 `ps -a`를 통해 로컬 이미지 목록과 컨테이너 실행 이력을 확인하였으며, `logs`와 `stats` 명령어로 컨테이너의 내부 출력 기록 및 실시간 자원 사용률을 검증함.
 
 * **Hello-World 구동**
@@ -127,3 +128,55 @@ branch.main.merge=refs/heads/main
 
 <br>
 
+## 7. Dockerfile 기반 웹 서버 컨테이너
+
+### 1) 커스텀 이미지 빌드 및 실행
+`Dockerfile`을 작성하여 Nginx 베이스 이미지에 직접 제작한 `index.html`을 포함시킨 커스텀 이미지를 생성
+
+* **Dockerfile 작성**
+  > <img src="./07-docker-file.png" width="600">
+
+* **이미지 빌드 및 컨테이너 실행 확인 (`docker build`, `docker ps`)**
+  > <img src="./08-docker-file2.png" width="600">
+  > * `docker ps`: 8080 포트가 매핑된 `codyssey-web` 컨테이너가 `Up` 상태임을 검증.
+  
+### 2) 서비스 접속 확인 (Port Mapping)
+브라우저를 통해 호스트의 8080 포트로 접속하여 컨테이너 내부에서 서비스 중인 웹 페이지가 정상 출력되는지 확인
+
+* **브라우저 접속 결과**
+  > <img src="./09-docker-logo.png" width="600">
+  > **접속 주소:** `http://localhost:8080`
+
+<br>
+
+## 8. 볼륨 영속성 증거
+컨테이너는 삭제되면 내부 데이터가 사라지는 '휘발성'을 가짐
+이를 보완하기 위해 Docker Volume을 생성하고, 컨테이너 삭제 후에도 데이터가 보존되는 **영속성(Persistence)**을 테스트
+
+  > * `docker images`: 생성된 `codyssey-logo` 이미지 확인.
+
+* **검증 로그 및 결과**
+### 1) 볼륨 생성 및 데이터 기입 (컨테이너 이름: data-check)
+### 2) 컨테이너 삭제
+### 3) 영속성 확인: 새 컨테이너에서 기존 볼륨을 연결하여 데이터가 남았는지 확인
+
+  > <img src="./10-docker-persistent.png" width="600">
+
+### 결과: "Log: 26-04-01 Success" 출력 확인 (영속성 확보 성공)
+
+<br>
+
+## 9. Github 설정 및 연동 증거
+
+  > <img src="./11-docker-git.png" width="600">
+
+<br>
+
+## 10. 구조적 원착 및 설계 고찰
+실습을 통해 확인한 Docker의 설계 원칙은 다음과 같습니다.
+
+### 1. 이미지와 컨테이너의 분리
+### 2. 격리된 실행 환경
+### 3. 포트 매핑 및 스토리지 연결
+
+~~하기 때문에 이런 설계가 필요합니다.
