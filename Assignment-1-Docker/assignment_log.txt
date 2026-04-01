@@ -1,66 +1,51 @@
 Script started on Wed Apr  1 17:13:11 2026
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 Assignment-1-Docker % [K[?2004hrrn ==  r rm -rf test[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 Assignment-1-Docker % [K[?2004hlls -l[?2004l
+izzzar00788078@c6r9s1 Assignment-1-Docker % rm -rf test
+izzzar00788078@c6r9s1 Assignment-1-Docker % ls -l
 total 1080
 -rw-r--r--@ 1 izzzar00788078  izzzar00788078  542846 Apr  1 16:29 01-github-link.png
 -rw-r--r--  1 izzzar00788078  izzzar00788078      43 Apr  1 17:13 assignment_log.txt
+-rw-r--r--  1 izzzar00788078    1366 Apr  1 17:12 README.md
+
+izzzar00788078@c6r9s1 Assignment-1-Docker % mkdir test
+izzzar00788078@c6r9s1 Assignment-1-Docker % ls -la
+total 1088
+drwxr-xr-x  6 izzzar00788078  izzzar00788078     192 Apr  1 17:13 .
+drwxr-xr-x  4 izzzar00788078  izzzar00788078     128 Apr  1 17:10 ..
+drwxr-xr-x 12 izzzar00788078  izzzar00788078     384 Apr  1 17:13 .git
+-rw-r--r--@ 1 izzzar00788078  izzzar00788078  542846 Apr  1 16:29 01-github-link.png
+-rw-r--r--  1 izzzar00788078  izzzar00788078      43 Apr  1 17:13 assignment_log.txt
 -rw-r--r--  1 izzzar00788078  izzzar00788078    1366 Apr  1 17:12 README.md
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 Assignment-1-Docker % [K[?2004hmmkdir test[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 Assignment-1-Docker % [K[?2004hccd test[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004httouch ca  sample.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hcchmod 766  55 sample            c  llel ls -l c sample.txt[?2004l
+drwxr-xr-x  2 izzzar00788078  izzzar00788078      64 Apr  1 17:13 test
+
+izzzar00788078@c6r9s1 Assignment-1-Docker % cd test
+
+izzzar00788078@c6r9s1 test % touch sample.txt
+izzzar00788078@c6r9s1 test % ls -l sample.txt
 -rw-r--r--  1 izzzar00788078  izzzar00788078  0 Apr  1 17:14 sample.txt
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hcchmod 755 sample.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hlls -l eamp    sample.txt[?2004l
+
+izzzar00788078@c6r9s1 test % chmod 755 sample.txt
+izzzar00788078@c6r9s1 test % ls -l sample.txt
 -rwxr-xr-x  1 izzzar00788078  izzzar00788078  0 Apr  1 17:14 sample.txt
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hcchmod 644 samp          c  ccp sample.te xt 채   copy.t      backup.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hcchmod 644 smaple     ample.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hlls -l[?2004l
+
+izzzar00788078@c6r9s1 test % cp sample.txt backup.txt
+izzzar00788078@c6r9s1 test % chmod 644 sample.txt
+izzzar00788078@c6r9s1 test % ls -l
 total 0
 -rwxr-xr-x  1 izzzar00788078  izzzar00788078  0 Apr  1 17:17 backup.txt
 -rw-r--r--  1 izzzar00788078  izzzar00788078  0 Apr  1 17:14 sample.txt
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hmmcm mv backup.txt renamed.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hlls -l[?2004l
+
+izzzar00788078@c6r9s1 test % mv backup.txt renamed.txt
+izzzar00788078@c6r9s1 test % ls -l
 total 0
 -rwxr-xr-x  1 izzzar00788078  izzzar00788078  0 Apr  1 17:17 renamed.txt
 -rw-r--r--  1 izzzar00788078  izzzar00788078  0 Apr  1 17:14 sample.txt
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hrrm sample.tst[?2004l
-rm: sample.tst: No such file or directory
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hl rrm sample.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hlls -l[?2004l
+
+izzzar00788078@c6r9s1 test % rm sample.txt
+izzzar00788078@c6r9s1 test % ls -l
 total 0
 -rwxr-xr-x  1 izzzar00788078  izzzar00788078  0 Apr  1 17:17 renamed.txt
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hccd ..[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 Assignment-1-Docker % [K[?2004heexit  e  ccat assignment_log.ts xt[?2004l
-Script started on Wed Apr  1 17:13:11 2026
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 Assignment-1-Docker % [K[?2004hrrn ==  r rm -rf test[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 Assignment-1-Docker % [K[?2004hlls -l[?2004l
-total 1080
--rw-r--r--@ 1 izzzar00788078  izzzar00788078  542846 Apr  1 16:29 01-github-link.png
--rw-r--r--  1 izzzar00788078  izzzar00788078      43 Apr  1 17:13 assignment_log.txt
--rw-r--r--  1 izzzar00788078  izzzar00788078    1366 Apr  1 17:12 README.md
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 Assignment-1-Docker % [K[?2004hmmkdir test[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 Assignment-1-Docker % [K[?2004hccd test[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004httouch ca  sample.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hcchmod 766  55 sample            c  llel ls -l c sample.txt[?2004l
--rw-r--r--  1 izzzar00788078  izzzar00788078  0 Apr  1 17:14 sample.txt
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hcchmod 755 sample.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hlls -l eamp    sample.txt[?2004l
--rwxr-xr-x  1 izzzar00788078  izzzar00788078  0 Apr  1 17:14 sample.txt
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hcchmod 644 samp          c  ccp sample.te xt 채   copy.t      backup.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hcchmod 644 smaple     ample.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hlls -l[?2004l
-total 0
--rwxr-xr-x  1 izzzar00788078  izzzar00788078  0 Apr  1 17:17 backup.txt
--rw-r--r--  1 izzzar00788078  izzzar00788078  0 Apr  1 17:14 sample.txt
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hmmcm mv backup.txt renamed.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hlls -l[?2004l
-total 0
--rwxr-xr-x  1 izzzar00788078  izzzar00788078  0 Apr  1 17:17 renamed.txt
--rw-r--r--  1 izzzar00788078  izzzar00788078  0 Apr  1 17:14 sample.txt
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hrrm sample.tst[?2004l
-rm: sample.tst: No such file or directory
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hl rrm sample.txt[?2004l
-[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 test % [K[?2004hlls [1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jizzzar00788078@c6r9s1 Assignment-1-Docker % [K[?2004heexit[?2004l
+
+izzzar00788078@c6r9s1 test % cd ..
+izzzar00788078@c6r9s1 Assignment-1-Docker % exit
 
 Script done on Wed Apr  1 17:19:22 2026
