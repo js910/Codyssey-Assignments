@@ -1,13 +1,16 @@
 # AI/SW 개발 워크스테이션 구축 과제
 
+
 ## 1. 프로젝트 개요
 - 목표: 도커를 이용한 로컬 개발 환경 구축 및 웹 서버 컨테이너화
+
 
 ## 2. 실행 환경
 - OS: macOS (OrbStack)
 - Shell: zsh
 - Docker Version: (나중에 채우기)
 - Git Version: (나중에 채우기)
+
 
 ## 3. 수행항목 체크리스트
 - [ ] 터미널 기초 실습 및 로그 기록
@@ -17,10 +20,11 @@
 - [ ] 포트매핑 및 볼륨 설정
 - [ ] Github 연동 완료
 
+
 ## 4. 터미널 조작 로그
 ### 1. Git 설정 확인
-**깃허브 연결**
-> <img src="./01-github-link.png" width="500">
+> **깃허브 연결**
+> <img src="./01-github-link.png" width="600">
 ```bash
 izzzar00788078@c6r9s1 Assignment-1-Docker % git config --global user.name "js910"
 izzzar00788078@c6r9s1 Assignment-1-Docker % git config --global user.email "jysong0914@gmail.com"
@@ -60,11 +64,10 @@ branch.main.merge=refs/heads/main
 
 
 ### 5. 트러블슈팅 (Troubleshooting)
-
 #### ① git push rejected & pull divergence
 * **문제:** 로컬에서 작업 완료 후 `git push`를 시도했으나 `[rejected]` 에러가 발생하며 거절당함.
 * **원인가설:** GitHub 웹사이트에서 직접 README를 수정했기 때문에, 원격 저장소에 로컬에는 없는 새로운 커밋이 생겨서 이력이 어긋났을 것으로 추측함. `pull`을 하면 해결될 것이라 예상함.
 * **확인:** `git pull`을 실행했으나 `fatal: Need to specify how to reconcile divergent branches` 메시지가 출력됨. 깃이 두 갈래로 갈라진 이력을 합치는 방법(Merge 또는 Rebase)을 정해주지 않아 멈춘 것을 확인.
 * **해결:** 이력을 하나로 묶어주는 가장 확실한 방법인 **Merge** 방식을 쓰기 위해 `git config pull.rebase false` 설정을 적용함. 이후 다시 `pull`을 수행하여 `Merge made by the 'ort' strategy` 메시지와 함께 이력을 성공적으로 합침.
-**[참고] 트러블슈팅 실행 화면**
-> <img src="./02-trouble-git.png" width="500">
+> **[참고] 트러블슈팅 실행 화면**
+> <img src="./02-trouble-git.png" width="600">
