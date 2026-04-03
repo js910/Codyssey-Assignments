@@ -146,10 +146,10 @@ branch.main.merge=refs/heads/main
 `Dockerfile`을 작성하여 Nginx:alpine 베이스 이미지에 직접 제작한 `index.html`을 포함시킨 커스텀 이미지를 생성
 
 * **Dockerfile 작성**
-  > <img src="./assets/07-docker-file.png" width="600">
+  <img src="./assets/07-docker-file.png" width="600">
 
 * **이미지 빌드 및 컨테이너 실행 확인 (`docker build`, `docker ps`)**
-  > <img src="./assets/08-docker-file2.png" width="600">
+  <img src="./assets/08-docker-file2.png" width="600">
 
   > * `docker ps`: 8080 포트가 매핑된 `codyssey-web` 컨테이너가 `Up` 상태임을 검증.
   
@@ -157,7 +157,7 @@ branch.main.merge=refs/heads/main
 브라우저를 통해 호스트의 8080 포트로 접속하여 컨테이너 내부에서 서비스 중인 웹 페이지가 정상 출력되는지 확인
 
 * **브라우저 접속 결과**
-  > <img src="./assets/09-docker-logo.png" width="600">
+  <img src="./assets/09-docker-logo.png" width="600">
 
 <br>
 
@@ -166,20 +166,20 @@ branch.main.merge=refs/heads/main
 ### 1) Bind Mount
 호스트의 작업 디렉토리를 컨테이너와 연결하여, 이미지 재빌드 없이 소스 수정을 실시간으로 반영
 
-   > <img src="./assets/13-docker-bind1.png" width="600">
-   > <img src="./assets/14-docker-bind2.png" width="600">
+  <img src="./assets/13-docker-bind1.png" width="600">
+  <img src="./assets/14-docker-bind2.png" width="600">
 
 * **브라우저 접속 결과**
    > 빌드 과정 없이 echo 명령만으로 localhost:8081의 화면이 바뀐 것을 확인
 
-   > <img src="./assets/15-docker-bind3.png" width="600">
+   <img src="./assets/15-docker-bind3.png" width="600">
 
 ### 2) Docker Volume
 컨테이너는 삭제되면 내부 데이터가 사라지는 휘발성 문제를 해결하기 위해, Docker Volume을 생성하여 컨테이너 삭제 후에도 데이터가 보존되는 **영속성**을 검증함.
 
   > * `docker images`: 생성된 `codyssey-logo` 이미지 확인.
 
-  > <img src="./assets/10-docker-persistent.png" width="600">
+  <img src="./assets/10-docker-persistent.png" width="600">
 
 | 단계 | 작업 내용 | 명령어/결과 확인 |
 | :--- | :--- | :--- |
@@ -193,7 +193,7 @@ branch.main.merge=refs/heads/main
 
 * **Repository 주소:** [https://github.com/js910/Codyssey-Assignments](https://github.com/js910/Codyssey-Assignments)
 
-   > <img src="./assets/11-docker-git.png" width="600">
+   <img src="./assets/11-docker-git.png" width="600">
 
 <br>
 
@@ -213,7 +213,7 @@ branch.main.merge=refs/heads/main
 * **Port Mapping**: 내부 설정을 수정하지 않고도 외부 접속 경로를 유연하게 운영합니다.
 * **데이터 영속성**: 컨테이너는 삭제 및 교체가 가능합니다. 따라서 보존이 필요한 데이터는 **Volume**에 저장해 데이터를 안전하게 유지합니다.
 
-> **결론적으로, Docker는 애플리케이션을 환경으로부터 독립시켜 표준화된 방식으로 관리하게 해주는 클라우드 인프라의 핵심 기술임을 확인하였습니다.**
+**결론적으로, Docker는 애플리케이션을 환경으로부터 독립시켜 표준화된 방식으로 관리하게 해주는 클라우드 인프라의 핵심 기술임을 확인하였습니다.**
 
 > **(추가)** Git: 내 컴퓨터(로컬)에서 코드의 변화를 기록하고 관리하는 도구, Github: Git으로 관리한 기록을 클라우드에 올려서 다른 사람과 공유하고 협업하는 플랫폼
 
