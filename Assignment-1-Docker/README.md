@@ -146,9 +146,11 @@ branch.main.merge=refs/heads/main
 `Dockerfile`을 작성하여 Nginx:alpine 베이스 이미지에 직접 제작한 `index.html`을 포함시킨 커스텀 이미지를 생성
 
 * **Dockerfile 작성**
+
   <img src="./assets/07-docker-file.png" width="600">
 
 * **이미지 빌드 및 컨테이너 실행 확인 (`docker build`, `docker ps`)**
+
   <img src="./assets/08-docker-file2.png" width="600">
 
   > * `docker ps`: 8080 포트가 매핑된 `codyssey-web` 컨테이너가 `Up` 상태임을 검증.
@@ -157,6 +159,7 @@ branch.main.merge=refs/heads/main
 브라우저를 통해 호스트의 8080 포트로 접속하여 컨테이너 내부에서 서비스 중인 웹 페이지가 정상 출력되는지 확인
 
 * **브라우저 접속 결과**
+
   <img src="./assets/09-docker-logo.png" width="600">
 
 <br>
