@@ -37,20 +37,20 @@
 * **원인가설:** 웹에서도 수정했기 때문에, 원격 저장소에 로컬에 없는 커밋이 생겨 이력이 어긋났을 것으로 추측. `pull`을 하면 해결될 것이라 예상함.
 * **확인:** `pull`을 실행했으나 `fatal: Need to specify how to reconcile divergent branches` 메시지가 출력됨. 깃이 두 갈래로 갈라진 이력을 합치는 방법(Merge 또는 Rebase)을 정해주지 않아 멈춘 것을 확인.
 * **해결:** 이력을 하나로 묶어주는 **Merge** 방식을 쓰기 위해 `pull.rebase false` 설정을 적용함. 이후 다시 `pull`을 수행하여 `Merge made by the 'ort' strategy` 메시지와 함께 이력을 성공적으로 합침.
-> <img src="./02-trouble-git.png" width="600">
+> <img src="./assets/02-trouble-git.png" width="600">
 
 ### [Issue #2] 컨테이너 네트워크 설정 오류
 * **문제:** docker run 실행 시 port is already allocated 에러와 함께 컨테이너 생성 실패.
 * **원인가설:** 이전 실습에서 포트를 점유하고 있는 컨테이너가 존재함.
 * **확인:** docker ps를 통해 현재 8080 포트가 활성화 상태임을 검증함.
 * **해결 및 대안:** 기존 컨테이너를 강제로 끄지 않고 새로운 실습을 병행하기 위해, 중복되지 않는 8081 포트를 할당함.
-> <img src="./12-trouble-docker.png" width="600">
+> <img src="./assets/12-trouble-docker.png" width="600">
 
 <br>
 
 ## 5. 터미널 조작 로그
 ### 1) Git 설정 확인
-> <img src="./01-github-link.png" width="600">
+> <img src="./assets/01-github-link.png" width="600">
 ```bash
 izzzar00788078@c6r9s1 Assignment-1-Docker % git config --global user.name "js910"
 izzzar00788078@c6r9s1 Assignment-1-Docker % git config --global user.email "jysong0914@gmail.com"
@@ -101,7 +101,7 @@ branch.main.merge=refs/heads/main
    - `mv backup.txt renamed.txt`: 파일 이름 변경
    - `rm sample.txt`: 원본 파일 삭제
 
-> **Note:** 상세 실행 로그는 [assignment_log.txt](./assignment_log.txt) 파일에서 확인 가능합니다.
+> **Note:** 상세 실행 로그는 [assignment_log.txt](./assets/assignment_log.txt) 파일에서 확인 가능합니다.
 
 3. **절대경로 상대경로**
 * **절대경로:** 루트(/) 로부터의 고정 주소
@@ -114,22 +114,22 @@ branch.main.merge=refs/heads/main
 ### 1) Docker 설치 및 점검
 * **버전 맟 서버 정보 (`docker --version`, `docker info`)**
 
-  <img src="./04-docker-info.png" width="600">
+  <img src="./assets/04-docker-info.png" width="600">
 
 * **운영 상태 통합 확인 (`images`, `ps -a`, `logs`, `stats`)**
 
-  <img src="./05-docker-info2.png" width="600">
+  <img src="./assets/05-docker-info2.png" width="600">
 
   > `docker images`와 `ps -a`를 통해 로컬 이미지 목록과 컨테이너 실행 이력을 확인하였으며, `logs`와 `stats` 명령어로 컨테이너의 내부 출력 기록 및 실시간 자원 사용률을 검증함.
 
 * **Hello-World 구동**
 
-  <img src="./03-docker-hello.png" width="600">
+  <img src="./assets/03-docker-hello.png" width="600">
 
 ### 2) Ubuntu 컨테이너 실습 분석
 * **컨테이너 내부 진입 및 명령어(`ls`, `echo`) 수행**
 
-  <img src="./06-docker-ubuntu.png" width="600">
+  <img src="./assets/06-docker-ubuntu.png" width="600">
 
 * **컨테이너 유지 방식 관찰 정리**
   > | 구분 | 특징 | 컨테이너 유지 여부 |
@@ -146,10 +146,10 @@ branch.main.merge=refs/heads/main
 `Dockerfile`을 작성하여 Nginx:alpine 베이스 이미지에 직접 제작한 `index.html`을 포함시킨 커스텀 이미지를 생성
 
 * **Dockerfile 작성**
-  > <img src="./07-docker-file.png" width="600">
+  > <img src="./assets/07-docker-file.png" width="600">
 
 * **이미지 빌드 및 컨테이너 실행 확인 (`docker build`, `docker ps`)**
-  > <img src="./08-docker-file2.png" width="600">
+  > <img src="./assets/08-docker-file2.png" width="600">
 
   > * `docker ps`: 8080 포트가 매핑된 `codyssey-web` 컨테이너가 `Up` 상태임을 검증.
   
@@ -157,7 +157,7 @@ branch.main.merge=refs/heads/main
 브라우저를 통해 호스트의 8080 포트로 접속하여 컨테이너 내부에서 서비스 중인 웹 페이지가 정상 출력되는지 확인
 
 * **브라우저 접속 결과**
-  > <img src="./09-docker-logo.png" width="600">
+  > <img src="./assets/09-docker-logo.png" width="600">
 
 <br>
 
@@ -166,20 +166,20 @@ branch.main.merge=refs/heads/main
 ### 1) Bind Mount
 호스트의 작업 디렉토리를 컨테이너와 연결하여, 이미지 재빌드 없이 소스 수정을 실시간으로 반영
 
-   > <img src="./13-docker-bind1.png" width="600">
-   > <img src="./14-docker-bind2.png" width="600">
+   > <img src="./assets/13-docker-bind1.png" width="600">
+   > <img src="./assets/14-docker-bind2.png" width="600">
 
 * **브라우저 접속 결과**
    > 빌드 과정 없이 echo 명령만으로 localhost:8081의 화면이 바뀐 것을 확인
 
-   > <img src="./15-docker-bind3.png" width="600">
+   > <img src="./assets/15-docker-bind3.png" width="600">
 
 ### 2) Docker Volume
 컨테이너는 삭제되면 내부 데이터가 사라지는 휘발성 문제를 해결하기 위해, Docker Volume을 생성하여 컨테이너 삭제 후에도 데이터가 보존되는 **영속성**을 검증함.
 
   > * `docker images`: 생성된 `codyssey-logo` 이미지 확인.
 
-  > <img src="./10-docker-persistent.png" width="600">
+  > <img src="./assets/10-docker-persistent.png" width="600">
 
 | 단계 | 작업 내용 | 명령어/결과 확인 |
 | :--- | :--- | :--- |
@@ -193,7 +193,7 @@ branch.main.merge=refs/heads/main
 
 * **Repository 주소:** [https://github.com/js910/Codyssey-Assignments](https://github.com/js910/Codyssey-Assignments)
 
-   > <img src="./11-docker-git.png" width="600">
+   > <img src="./assets/11-docker-git.png" width="600">
 
 <br>
 
