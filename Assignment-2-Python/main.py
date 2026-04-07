@@ -1,19 +1,23 @@
 # main.py
+from game import QuizGame, default_quizzes
 
 def main():
+    game = QuizGame(default_quizzes)
+
     while True:
-        print("\n--- 퀴즈 게임 ---")
+        print("="*30)
+        print("\n     퀴즈 게임")
         print("1. 퀴즈 풀기")
         print("2. 퀴즈 추가")
         print("3. 퀴즈 목록")
         print("4. 점수 확인")
         print("0. 종료")
-        print("---------------")
+        print("="*30)
         
         choice = input("선택: ").strip()
         
         if choice == "1":
-            print("\n퀴즈를 시작합니다 (총 5문제)")
+            game.start()
         elif choice == "2":
             print("\n새로운 퀴즈를 추가합니다")
         elif choice == "3":
