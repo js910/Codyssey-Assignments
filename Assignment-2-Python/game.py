@@ -67,6 +67,21 @@ class QuizGame:
         except:
             print("숫자만 작성하세요")
 
+    # 퀴즈 목록
+    def show_list(self):
+        print(f"\n등록된 퀴즈 목록 (총 {len(self.quizzes)}개)")
+        
+        # 퀴즈가 없는 경우
+        if not self.quizzes:
+            print("\n등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가하세요")
+            return
+        
+        print("\n"+"-"*20)
+        for i in range(len(self.quizzes)):
+            print(f"[{i}] {self.quizzes[i].question}")
+        print("-"*20)
+
+
 
 # 기본 퀴즈 목록
 default_quizzes = [
