@@ -1,4 +1,6 @@
 # game.py
+import json
+import os
 class Quiz:
     # 속성 정의
     def __init__(self, question, choices, answer):
@@ -24,8 +26,38 @@ class QuizGame:
         self.high_score = 0
         self.has_played = False
     
+    # 메뉴 표시
+    def show_menu(self):
+        print("="*30)
+        print("\n     퀴즈 게임")
+        print("1. 퀴즈 풀기")
+        print("2. 퀴즈 추가")
+        print("3. 퀴즈 목록")
+        print("4. 점수 확인")
+        print("0. 종료")
+        print("="*30)
+        return input("선택: ").strip()
+        
+    # 실행
+    def run(self):
+        while True:
+            choice = self.show_menu()
+            if choice == "1":
+                self.start()
+            elif choice == "2":
+                self.add_quiz()
+            elif choice == "3":
+                self.show_list()
+            elif choice == "4":
+                self.show_highscore()
+            elif choice == "0":
+                print("\n프로그램을 종료합니다.")
+                break
+            else:
+                print("잘못된 입력입니다. 0-4 사이의 숫자를 입력하세요")
+
     # 퀴즈 풀기
-    def start(self):
+    def start_quiz(self):
         #퀴즈가 없는 경우
         if not self.quizzes:
             print("\n등록된 퀴즈가 없습니다")
