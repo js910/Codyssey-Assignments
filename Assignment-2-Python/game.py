@@ -16,8 +16,7 @@ class QuizGame:
             if not os.path.exists(self.file_path):
                 self.quizzes = self.default_quizzes
                 self.high_score = 0
-                return
-            
+                return            
             with open(self.file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 new_list = []
@@ -25,10 +24,8 @@ class QuizGame:
                     obj = Quiz(q["question"], q["choices"], q["answer"])
                     new_list.append(obj)
                 self.quizzes = new_list
-
                 self.high_score = data.get("best_score",0)
-                self.has_played = data.get("has_played",False)
-        
+                self.has_played = data.get("has_played",False)       
         except:
             print(f"\n파일 로드 실패. 기본 데이터를 사용합니다")
             self.quizzes = self.default_quizzes
@@ -58,25 +55,21 @@ class QuizGame:
         print("4. 점수 확인")
         print("0. 종료")
         print("="*30)
-        return input("선택: ").strip()
+        return self.safe_answer("선택: ",0,4)
         
     # 실행
     def run(self):
         while True:
             choice = self.show_menu()
-            if choice == "1":
-                self.start_quiz()
-            elif choice == "2":
-                self.add_quiz()
-            elif choice == "3":
-                self.show_list()
-            elif choice == "4":
-                self.show_highscore()
-            elif choice == "0":
-                print("\n프로그램을 종료합니다.")
-                break
-            else:
-                print("잘못된 입력입니다. 0-4 사이의 숫자를 입력하세요")
+            match choice:
+                case 1: self.start_quiz()
+                case 2: self.add_quiz()
+                case 3: self.show_list()
+                case 4: self.show_highscore()
+                case 0:
+                    print("\n프로그램을 종료합니다.")
+                    self.save_state()
+                    break
 
     # 퀴즈 풀기
     def start_quiz(self):
@@ -92,15 +85,12 @@ class QuizGame:
         for i in range(len(self.quizzes)):
             quiz = self.quizzes[i]
             quiz.show_quiz(i+1) 
-            try:
-                user_input = int(input("\n정답 입력: "))
-                if quiz.is_correct(user_input):
-                    print("정답입니다!")
-                    self.score += 1
-                else:
-                    print(f"오답입니다. 정답은 {quiz.answer}번")
-            except ValueError:
-                print("잘못된 입력입니다. 오답 처리됩니다.")   
+            user_input = self.safe_answer("\n정답 입력: ",1,4)
+            if quiz.is_correct(user_input):
+                print("정답입니다!")
+                self.score += 1
+            else:
+                print(f"오답입니다. 정답은 {quiz.answer}번")
         self.show_result()
         self.update_score()
 
@@ -115,15 +105,9 @@ class QuizGame:
         print("\n새로운 퀴즈 추가\n")
         question = input("문제 내용: ").strip()
         choices = [input(f"선택지 {i+1}: ") for i in range(4)]
-        try:
-            answer = int(input("정답 번호 (1-4): ").strip())
-            if not (1<=answer<=4):
-                raise ValueError("정답은 1에서 4 사이의 숫자여야 합니다.")
-            self.quizzes.append(Quiz(question, choices, answer))
-            self.save_state()
-            print("퀴즈가 추가되었습니다")
-        except:
-            print("숫자만 작성하세요")
+        answer = self.safe_answer("정답 번호 (1-4): ",1,4)
+        self.quizzes.append(Quiz(question, choices, answer))
+        self.save_state()
 
     # 퀴즈 목록
     def show_list(self):
@@ -141,6 +125,7 @@ class QuizGame:
 
     # 최고점수 기록
     def update_score(self):
+        if len(self.quizzes) == 0: return
         self.has_played = True
         this_score = (int)(self.score/len(self.quizzes)*100)
         if this_score > self.high_score:
@@ -154,3 +139,19 @@ class QuizGame:
             print("\n아직 게임 플레이 기록이 없습니다.")
         else:
             print(f"\n최고 점수: {self.high_score}점")
+
+    # 예외처리
+    def safe_answer(self, prompt, min, max):
+        while True:
+            try:
+                val = input(prompt).strip()
+                if not val:
+                    print("다시 입력해주세요")
+                    continue
+                num = int(val)
+                if min<=num<=max:
+                    return num
+                else:
+                    print(f"{min}-{max} 사이의 숫자를 입력하세요")
+            except ValueError:
+                print("숫자 형식으로 입력하세요")
