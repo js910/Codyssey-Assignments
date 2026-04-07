@@ -8,7 +8,7 @@ class Quiz:
 
     # 퀴즈 출력 메서드
     def show_quiz(self, index):
-        print(f"\n[문제 {index}] {self.question}")
+        print(f"[문제 {index}] {self.question}\n")
         for i in range(len(self.choices)):
             choice = self.choices[i]
             print(f"{i + 1}. {choice}")
@@ -17,6 +17,42 @@ class Quiz:
     def is_correct(self, user_answer):
         return self.answer == user_answer
     
+class QuizGame:
+    def __init__(self, quizzes):
+        self.quizzes = quizzes
+        self.score = 0
+    
+    def start(self):
+        #퀴즈가 없는 경우
+        if not self.quizzes:
+            print("\n등록된 퀴즈가 없습니다")
+            return
+        
+        print("\n퀴즈를 시작합니다 (총 5문제)")
+        print("\n"+"-"*20)
+        self.score = 0
+
+        for i in range(len(self.quizzes)):
+            quiz = self.quizzes[i]
+            quiz.show_quiz(i+1)
+            
+            try:
+                user_input = int(input("\n정답 입력: "))
+                if quiz.is_correct(user_input):
+                    print("정답입니다!")
+                    self.score += 1
+                else:
+                    print(f"오답입니다. 정답은 {quiz.answer}번")
+            except ValueError:
+                print("잘못된 입력입니다. 오답 처리됩니다.")
+            
+        self.show_result()
+
+    def show_result(self):
+        print("="*30)
+        print(f"결과: {len(self.quizzes)}문제 중 {self.score}문제 정답! ({self.score/len(self.quizzes)*100}점)")
+        print("="*30)
+
 # 기본 퀴즈 목록
 default_quizzes = [
     Quiz(
