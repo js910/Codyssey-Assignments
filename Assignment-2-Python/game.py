@@ -22,20 +22,20 @@ class QuizGame:
         self.quizzes = quizzes
         self.score = 0
     
+    # 퀴즈 풀기
     def start(self):
         #퀴즈가 없는 경우
         if not self.quizzes:
             print("\n등록된 퀴즈가 없습니다")
             return
         
-        print("\n퀴즈를 시작합니다 (총 5문제)")
+        print(f"\n퀴즈를 시작합니다 (총 {len(self.quizzes)}문제)")
         print("\n"+"-"*20)
         self.score = 0
 
         for i in range(len(self.quizzes)):
             quiz = self.quizzes[i]
-            quiz.show_quiz(i+1)
-            
+            quiz.show_quiz(i+1) 
             try:
                 user_input = int(input("\n정답 입력: "))
                 if quiz.is_correct(user_input):
@@ -44,14 +44,29 @@ class QuizGame:
                 else:
                     print(f"오답입니다. 정답은 {quiz.answer}번")
             except ValueError:
-                print("잘못된 입력입니다. 오답 처리됩니다.")
-            
+                print("잘못된 입력입니다. 오답 처리됩니다.")   
         self.show_result()
 
+    # 점수 표시
     def show_result(self):
         print("="*30)
         print(f"결과: {len(self.quizzes)}문제 중 {self.score}문제 정답! ({self.score/len(self.quizzes)*100}점)")
         print("="*30)
+
+    # 퀴즈 추가
+    def add_quiz(self):
+        print("\n새로운 퀴즈 추가\n")
+        question = input("문제 내용: ").strip()
+        choices = [input(f"선택지 {i+1}: ") for i in range(4)]
+        try:
+            answer = int(input("정답 번호 (1-4): ")).strip()
+            if not (1<=answer<=4):
+                raise ValueError("정답은 1에서 4 사이의 숫자여야 합니다.")
+            self.quizzes.append(Quiz(question, choices, answer))
+            print("퀴즈가 추가되었습니다")
+        except:
+            print("숫자만 작성하세요")
+
 
 # 기본 퀴즈 목록
 default_quizzes = [
