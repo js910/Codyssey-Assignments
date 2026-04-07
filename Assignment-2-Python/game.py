@@ -1,30 +1,52 @@
 # game.py
 import json
 import os
-class Quiz:
-    # 속성 정의
-    def __init__(self, question, choices, answer):
-        self.question = question
-        self.choices = choices
-        self.answer = answer
-
-    # 퀴즈 출력 메서드
-    def show_quiz(self, index):
-        print(f"[문제 {index}] {self.question}\n")
-        for i in range(len(self.choices)):
-            choice = self.choices[i]
-            print(f"{i + 1}. {choice}")
-
-    # 정답 확인 메서드
-    def is_correct(self, user_answer):
-        return self.answer == user_answer
-    
+from data import Quiz
 class QuizGame:
-    def __init__(self, quizzes):
-        self.quizzes = quizzes
-        self.score = 0
-        self.high_score = 0
-        self.has_played = False
+    def __init__(self, default_quizzes):
+        self.file_path = "state.json"
+        self.default_quizzes = default_quizzes
+        self.quizzes = []
+        self.load_state()
+
+    # state.json 불러오기
+    def load_state(self):
+        try:
+            #예외처리
+            if not os.path.exists(self.file_path):
+                self.quizzes = self.default_quizzes
+                self.high_score = 0
+                return
+            
+            with open(self.file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                new_list = []
+                for q in data.get("quizzes", []):
+                    obj = Quiz(q["question"], q["choices"], q["answer"])
+                    new_list.append(obj)
+                self.quizzes = new_list
+
+                self.high_score = data.get("best_score",0)
+                self.has_played = data.get("has_played",False)
+        
+        except:
+            print(f"\n파일 로드 실패. 기본 데이터를 사용합니다")
+            self.quizzes = self.default_quizzes
+            self.high_score = 0
+            self.has_played = False
+
+    # state.json 저장하기
+    def save_state(self):
+        try:
+            data = {
+                "quizzes": [q.to_dict() for q in self.quizzes],
+                "best_score": self.high_score,
+                "has_played": self.has_played
+            }
+            with open(self.file_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=4)
+        except Exception as e:
+            print(f"파일 저장 실패: {e}")
     
     # 메뉴 표시
     def show_menu(self):
@@ -43,7 +65,7 @@ class QuizGame:
         while True:
             choice = self.show_menu()
             if choice == "1":
-                self.start()
+                self.start_quiz()
             elif choice == "2":
                 self.add_quiz()
             elif choice == "3":
@@ -98,6 +120,7 @@ class QuizGame:
             if not (1<=answer<=4):
                 raise ValueError("정답은 1에서 4 사이의 숫자여야 합니다.")
             self.quizzes.append(Quiz(question, choices, answer))
+            self.save_state()
             print("퀴즈가 추가되었습니다")
         except:
             print("숫자만 작성하세요")
@@ -123,6 +146,7 @@ class QuizGame:
         if this_score > self.high_score:
             self.high_score = this_score
             print(f"(축하) 새로운 최고 점수입니다!")
+        self.save_state()
 
     # 최고점수 출력
     def show_highscore(self):
@@ -130,33 +154,3 @@ class QuizGame:
             print("\n아직 게임 플레이 기록이 없습니다.")
         else:
             print(f"\n최고 점수: {self.high_score}점")
-
-
-# 기본 퀴즈 목록
-default_quizzes = [
-    Quiz(
-        "객체를 단 하나만 생성하여 어디서든 참조하게 하는 생성 패턴은?",
-        ["프로토타입(Prototype)", "싱글톤(Singleton)", "브리지(Bridge)", "복합체(Composite)"],
-        2
-    ),
-    Quiz(
-        "자료 흐름도(DFD)의 자료를 정의하고 상세히 설명하는 도구는?",
-        ["자료 사전(Data Dictionary)", "소단위 명세서(Minispec)", "상태 전이도(STD)", "CASE"],
-        1
-    ),
-    Quiz(
-        "하나의 메시지에 대해 여러 형태의 응답을 할 수 있는 객체지향 원리는?",
-        ["캡슐화(Encapsulation)", "상속(Inheritance)", "다형성(Polymorphism)", "추상화(Abstraction)"],
-        3
-    ),
-    Quiz(
-        "모듈이 다른 모듈의 내부 기능을 직접 참조하는 가장 강한 결합도는?",
-        ["내용 결합도(Content)", "공통 결합도(Common)", "외부 결합도(External)", "제어 결합도(Control)"],
-        1
-    ),
-    Quiz(
-        "비즈니스 로직과 UI를 분리하는 모델/뷰/컨트롤러 패턴의 명칭은?",
-        ["클라이언트-서버", "계층화 패턴", "파이프-필터", "MVC 패턴"],
-        4
-    )
-]
