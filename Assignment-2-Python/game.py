@@ -21,6 +21,8 @@ class QuizGame:
     def __init__(self, quizzes):
         self.quizzes = quizzes
         self.score = 0
+        self.high_score = 0
+        self.has_played = False
     
     # 퀴즈 풀기
     def start(self):
@@ -46,6 +48,7 @@ class QuizGame:
             except ValueError:
                 print("잘못된 입력입니다. 오답 처리됩니다.")   
         self.show_result()
+        self.update_score()
 
     # 점수 표시
     def show_result(self):
@@ -59,7 +62,7 @@ class QuizGame:
         question = input("문제 내용: ").strip()
         choices = [input(f"선택지 {i+1}: ") for i in range(4)]
         try:
-            answer = int(input("정답 번호 (1-4): ")).strip()
+            answer = int(input("정답 번호 (1-4): ").strip())
             if not (1<=answer<=4):
                 raise ValueError("정답은 1에서 4 사이의 숫자여야 합니다.")
             self.quizzes.append(Quiz(question, choices, answer))
@@ -81,6 +84,20 @@ class QuizGame:
             print(f"[{i}] {self.quizzes[i].question}")
         print("-"*20)
 
+    # 최고점수 기록
+    def update_score(self):
+        self.has_played = True
+        this_score = (int)(self.score/len(self.quizzes)*100)
+        if this_score > self.high_score:
+            self.high_score = this_score
+            print(f"(축하) 새로운 최고 점수입니다!")
+
+    # 최고점수 출력
+    def show_highscore(self):
+        if not self.has_played:
+            print("\n아직 게임 플레이 기록이 없습니다.")
+        else:
+            print(f"\n최고 점수: {self.high_score}점")
 
 
 # 기본 퀴즈 목록

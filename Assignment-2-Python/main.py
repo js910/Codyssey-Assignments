@@ -19,16 +19,16 @@ def main():
         if choice == "1":
             game.start()
         elif choice == "2":
-            print("\n새로운 퀴즈를 추가합니다")
+            game.add_quiz()
         elif choice == "3":
-            print("\n등록된 퀴즈 목록")
+            game.show_list()
         elif choice == "4":
-            print("\n최고 점수: n점 (n문제 중 n문제 정답)")
+            game.show_highscore()
         elif choice == "0":
             print("\n프로그램을 종료합니다.")
             break
         else:
-            print("잘못된 입력입니다. 1-5 사이의 숫자를 입력하세요")
+            print("잘못된 입력입니다. 0-4 사이의 숫자를 입력하세요")
 
 if __name__ == "__main__":
     main()
