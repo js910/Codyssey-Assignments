@@ -48,7 +48,7 @@ python main.py
 > <img src="./assets/func_list.png" width="600">
 
 #### 4) 점수 확인: 플레이 기록 중 최고 점수를 불러와 출력
-> <img src="./assets/func_score.png" width="600">
+> <img src="./assets/func_score.png" width="300">
 
 #### 5) 예외 처리: 숫자 변환 오류, 범위 초과, 빈 값 입력 등을 try-except로 방어하며, Ctrl+C 및 EOFError 발생 시에도 안전하게 자동 저장 후 종료
 > <img src="./assets/func_error.png" width="600">
@@ -70,7 +70,8 @@ python main.py
   - `quizzes`: 문제(question), 보기(choices), 정답(answer) 정보를 담은 객체 리스트
   - `best_score`: 최고 정답률 숫자 데이터
   - `has_played`: 게임 실행 여부를 판단 (Boolean)
-  <img src="./assets/state_schema.png" width="600">
+
+ <img src="./assets/state_schema.png" width="600">
 
 <br>
 
@@ -79,6 +80,7 @@ python main.py
 - **브랜치 병합**: `feature/play` 브랜치 작업 후 `main` 병합
 - **동기화**: 별도 디렉터리에서 `git clone`, 수정 후 `commit` -> `push`
             기존 로컬 작업 디렉터리에서 `pull`을 통해 변경사항 동기화 완료
+  
 <img src="./assets/log_graph.png" width="600">
 
 <br>
@@ -89,6 +91,7 @@ python main.py
 - **범위 검증**: 메뉴/정답 번호가 지정된 범위를 벗어날 경우 안내 메시지 출력
 - **강제 종료 대응**: `KeyboardInterrupt` 및 `EOFError` 발생 시 `state.json` 저장 후 안전하게 종료
 - **파일 복구**: `state.json`이 삭제되었거나 손상된 경우, 기본 데이터셋으로 복구
+  
 <img src="./assets/error_input.png" width="600"><img src="./assets/error_quit.png" width="600">
 
 <br>
