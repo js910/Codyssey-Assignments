@@ -1,6 +1,7 @@
 # Python 퀴즈 게임
 <p>
    <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+   <img src="https://img.shields.io/badge/Zsh-4EAA25?style=for-the-badge&logo=zsh&logoColor=white">
    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
 </p>
 
@@ -25,10 +26,10 @@
 ## 4. 실행 방법
 ```bash
 # 1. 저장소 클론
-git clone https://github.com/js910/Codyssey-Assignments/Assignment-2-Python
+git clone https://github.com/js910/Codyssey-Assignments
 
 # 2. 폴더 이동
-cd [프로젝트 폴더명]
+cd Codyssey-Assignments/Assignment-2-Python
 
 # 3. 프로그램 실행
 python main.py
@@ -38,19 +39,19 @@ python main.py
 
 ## 5. 기능 목록
 #### 1) 퀴즈 풀기: 저장된 문제를 출제하고 정답 여부를 체크하여 점수를 계산
-> <img src="./assets/.png" width="600">
+> <img src="./assets/func_play.png" width="600">
 
 #### 2) 퀴즈 추가: 사용자로부터 문제, 4개의 선택지, 정답 번호를 입력받아 state.json에 저장
-> <img src="./assets/.png" width="600">
+> <img src="./assets/func_add.png" width="600">
 
 #### 3) 목록 조회: 현재 시스템에 등록된 전체 퀴즈 리스트를 확인
-> <img src="./assets/.png" width="600">
+> <img src="./assets/func_list.png" width="600">
 
 #### 4) 점수 확인: 플레이 기록 중 최고 점수를 불러와 출력
-> <img src="./assets/.png" width="600">
+> <img src="./assets/func_score.png" width="600">
 
 #### 5) 예외 처리: 숫자 변환 오류, 범위 초과, 빈 값 입력 등을 try-except로 방어하며, Ctrl+C 및 EOFError 발생 시에도 안전하게 자동 저장 후 종료
-> <img src="./assets/.png" width="600">
+> <img src="./assets/func_error.png" width="600">
 
 <br>
 
@@ -69,6 +70,7 @@ python main.py
   - `quizzes`: 문제(question), 보기(choices), 정답(answer) 정보를 담은 객체 리스트
   - `best_score`: 최고 정답률 숫자 데이터
   - `has_played`: 게임 실행 여부를 판단 (Boolean)
+  <img src="./assets/state_schema.png" width="600">
 
 <br>
 
@@ -87,3 +89,20 @@ python main.py
 - **범위 검증**: 메뉴/정답 번호가 지정된 범위를 벗어날 경우 안내 메시지 출력
 - **강제 종료 대응**: `KeyboardInterrupt` 및 `EOFError` 발생 시 `state.json` 저장 후 안전하게 종료
 - **파일 복구**: `state.json`이 삭제되었거나 손상된 경우, 기본 데이터셋으로 복구
+<img src="./assets/error_input.png" width="600"><img src="./assets/error_quit.png" width="600">
+
+<br>
+
+## 10. 랜덤 함수
+파이썬의 random 모듈을 사용하여 무작위 값을 생성하거나 데이터를 뒤섞는 방법입니다.
+```python
+import random
+```
+
+| 함수 | 설명 | 특징 |
+| :--- | :--- | :--- |
+| `random()` | 0.0 이상 1.0 미만 실수 선택 | 0.0 <= x < 1.0 |
+| `randint(a, b)` | a 이상 b 이하 정수 선택 | **마지막 숫자 b 포함** |
+| `choice(list)` | 리스트에서 요소 하나를 무작위 선택 | 단일 값 반환 |
+| `sample(list, k)` | 리스트에서 중복 없이 k개를 선택 | 원본 보존, 새 리스트 반환 |
+| `shuffle(list)` | 리스트의 순서를 그 자리에서 뒤섞음 | **원본 변형** |

@@ -1,7 +1,9 @@
 # game.py
 import json
 import os
+import random
 from data import Quiz
+
 class QuizGame:
     def __init__(self, default_quizzes):
         self.file_path = "state.json"
@@ -16,6 +18,7 @@ class QuizGame:
             if not os.path.exists(self.file_path):
                 self.quizzes = self.default_quizzes
                 self.high_score = 0
+                self.has_played = False
                 return            
             with open(self.file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -25,12 +28,10 @@ class QuizGame:
                     new_list.append(obj)
                 self.quizzes = new_list
                 self.high_score = data.get("best_score",0)
-                self.has_played = data.get("has_played",False)       
+                self.has_played = data.get("has_played",False)
         except:
             print(f"\n파일 로드 실패. 기본 데이터를 사용합니다")
             self.quizzes = self.default_quizzes
-            self.high_score = 0
-            self.has_played = False
 
     # state.json 저장하기
     def save_state(self):
@@ -48,7 +49,7 @@ class QuizGame:
     # 메뉴 표시
     def show_menu(self):
         print("="*30)
-        print("\n     퀴즈 게임")
+        print("\n  퀴즈 게임")
         print("1. 퀴즈 풀기")
         print("2. 퀴즈 추가")
         print("3. 퀴즈 목록")
@@ -80,10 +81,13 @@ class QuizGame:
         
         print(f"\n퀴즈를 시작합니다 (총 {len(self.quizzes)}문제)")
         print("\n"+"-"*20)
+
+        # 랜덤 셔플
+        random_quiz = random.sample(self.quizzes, len(self.quizzes))
         self.score = 0
 
-        for i in range(len(self.quizzes)):
-            quiz = self.quizzes[i]
+        for i in range(len(random_quiz)):
+            quiz = random_quiz[i]
             quiz.show_quiz(i+1) 
             user_input = self.safe_answer("\n정답 입력: ",1,4)
             if quiz.is_correct(user_input):
@@ -120,7 +124,7 @@ class QuizGame:
         
         print("\n"+"-"*20)
         for i in range(len(self.quizzes)):
-            print(f"[{i}] {self.quizzes[i].question}")
+            print(f"[{i+1}] {self.quizzes[i].question}")
         print("-"*20)
 
     # 최고점수 기록

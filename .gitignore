@@ -3,3 +3,6 @@
 
 # Python
 __pycache__/
+
+# 생성되는 상태 파일 제외
+state.json
