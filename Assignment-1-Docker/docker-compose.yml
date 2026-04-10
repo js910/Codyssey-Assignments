@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  # 서비스 1: 완제품 빌드
+  web-build:
+    container_name: codyssey-web-container
+    build: ./web-build
+    ports:
+      - "8080:80"
+
+  # 서비스 2: 실시간 마운트 + 로그 볼륨
+  dev-mount:
+    container_name: codyssey-dev-container
+    image: nginx:alpine	# 기본 이미지로 빌드
+    ports:
+      - "8081:80"
+    volumes:
+      # 바인드 마운트: 내 컴퓨터의 index.html을 실시간 연결
+      - "./dev-mount/index.html:/usr/share/nginx/html/index.html"
+      # 도커 볼륨: 컨테이너의 로그 폴더를 'my-logs' 볼륨에 연결
+      - "my-data:/mnt"
+
+# 볼륨 정의
+volumes:
+  my-data:
+    name: data_volume

@@ -46,6 +46,8 @@
 * **해결 및 대안:** 기존 컨테이너를 강제로 끄지 않고 새로운 실습을 병행하기 위해, 중복되지 않는 8081 포트를 할당함.
 > <img src="./assets/12-trouble-docker.png" width="600">
 
+> 8080 포트 사용하려면 `docker stop -> rm 컨테이너`
+
 <br>
 
 ## 5. 터미널 조작 로그
@@ -112,7 +114,7 @@ branch.main.merge=refs/heads/main
 ## 6. Docker 운영/검증 로그
 
 ### 1) Docker 설치 및 점검
-* **버전 맟 서버 정보 (`docker --version`, `docker info`)**
+* **버전 및 서버 정보 (`docker --version`, `docker info`)**
 
   <img src="./assets/04-docker-info.png" width="600">
 
@@ -192,7 +194,54 @@ branch.main.merge=refs/heads/main
 
 <br>
 
-## 9. Github 설정 및 연동 증거
+## 9. Docker Compose
+포트, 볼륨 등 여러 개의 docker 컨테이너 설정을 하나의 문서로 정리해 운영할 수 있도록 해주는 도구
+```bash
+docker compose up
+```
+<img src="./assets/16-docker-compose.png" width="600">
+
+<br>
+
+## 10. 실행 방법
+### 1) 최종 디렉토리 구조
+```bash
+프로젝트 폴더/
+├── docker-compose.yml
+├── web-build/
+│   ├── Dockerfile
+│   └── index.html
+└── dev-mount/
+    └── index.html
+```
+
+### 2) 실행 순서
+
+Step 0. 저장소 클론 및 이동
+```bash
+git clone https://github.com/js910/Codyssey-Assignments
+
+cd Codyssey-Assignments/Assignment-1-Docker
+```
+
+Step 1. 전체 빌드 및 실행
+이 명령어로 web-build와 dev-mount 이미지 생성 및 컨테이너 실행, dev-mount는 마운트와 볼륨이 연결된 채 실행됨
+```bash
+docker compose up -d
+```
+
+Step 2. 결과 확인
+웹페이지: 브라우저에서 localhost:8080과 localhost:8081 접속
+
+Step 3. 볼륨 연결한 파일 작성 및 확인
+```bash
+docker exec codyssey-dev-container sh -c "echo 'log 26-04-10' > /mnt/save.txt"
+docker exec codyssey-dev-container cat /mnt/save.txt
+```
+
+<br>
+
+## 11. Github 설정 및 연동 증거
 
 * **Repository 주소:** [https://github.com/js910/Codyssey-Assignments](https://github.com/js910/Codyssey-Assignments)
 
@@ -200,7 +249,7 @@ branch.main.merge=refs/heads/main
 
 <br>
 
-## 10. 구조적 원칙 및 설계 고찰
+## 12. 구조적 원칙 및 설계 고찰
 실습을 통해 확인한 Docker의 설계 원칙은 다음과 같습니다.
 
 #### 1. 이미지와 컨테이너의 분리
