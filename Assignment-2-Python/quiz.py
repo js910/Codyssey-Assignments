@@ -1,4 +1,4 @@
-# data.py
+# quiz.py
 class Quiz:
     # 속성 정의
     def __init__(self, question, choices, answer):

@@ -2,14 +2,34 @@
 import json
 import os
 import random
-from data import Quiz
+from quiz import Quiz
 
 class QuizGame:
     def __init__(self, default_quizzes):
         self.file_path = "state.json"
         self.default_quizzes = default_quizzes
         self.quizzes = []
+        self.q_min = 1
+        self.q_max = 4
+        self.high_score = 0
+        self.has_played = False
         self.load_state()
+
+    # 예외처리
+    def safe_answer(self, prompt, min_val, max_val):
+        while True:
+            try:
+                val = input(prompt).strip()
+                if not val:
+                    print("다시 입력해주세요")
+                    continue
+                num = int(val)
+                if min_val<=num<=max_val:
+                    return num
+                else:
+                    print(f"{min_val}-{max_val} 사이의 숫자를 입력하세요")
+            except ValueError:
+                print("숫자 형식으로 입력하세요")
 
     # state.json 불러오기
     def load_state(self):
@@ -17,16 +37,10 @@ class QuizGame:
             #예외처리
             if not os.path.exists(self.file_path):
                 self.quizzes = self.default_quizzes
-                self.high_score = 0
-                self.has_played = False
                 return            
             with open(self.file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-                new_list = []
-                for q in data.get("quizzes", []):
-                    obj = Quiz(q["question"], q["choices"], q["answer"])
-                    new_list.append(obj)
-                self.quizzes = new_list
+                self.quizzes = [Quiz(q["question"], q["choices"], q["answer"]) for q in data.get("quizzes", [])]
                 self.high_score = data.get("best_score",0)
                 self.has_played = data.get("has_played",False)
         except:
@@ -89,7 +103,7 @@ class QuizGame:
         for i in range(len(random_quiz)):
             quiz = random_quiz[i]
             quiz.show_quiz(i+1) 
-            user_input = self.safe_answer("\n정답 입력: ",1,4)
+            user_input = self.safe_answer("\n정답 입력: ", self.q_min, self.q_max)
             if quiz.is_correct(user_input):
                 print("정답입니다!")
                 self.score += 1
@@ -100,28 +114,50 @@ class QuizGame:
 
     # 점수 표시
     def show_result(self):
+        total = len(self.quizzes)
+        percent = int(self.score / total * 100)
         print("="*30)
-        print(f"결과: {len(self.quizzes)}문제 중 {self.score}문제 정답! ({self.score/len(self.quizzes)*100}점)")
+        print(f"결과: {total}문제 중 {self.score}문제 정답! ({percent}점)")
         print("="*30)
 
     # 퀴즈 추가
     def add_quiz(self):
-        print("\n새로운 퀴즈 추가\n")
-        question = input("문제 내용: ").strip()
-        choices = [input(f"선택지 {i+1}: ") for i in range(4)]
-        answer = self.safe_answer("정답 번호 (1-4): ",1,4)
+        print("\n새로운 퀴즈 추가 (q 입력시 탈출\n")
+        # 문제 입력
+        while True:
+            question = input("문제 내용: ").strip()
+            if question.lower() == 'q': 
+                print("추가를 취소합니다.")
+                return
+            if question:
+                break
+            print("오류: 문제 내용을 입력해야 합니다.")
+
+        # 선택지 입력
+        choices = []
+        for i in range(self.q_max):
+            while True:
+                choice = input(f"선택지 {i + 1}: ").strip()
+                if choice.lower() == 'q':
+                    print("추가를 취소합니다.")
+                    return
+                if choice:
+                    choices.append(choice)
+                    break
+                print(f"오류: 선택지 {i + 1}의 내용을 입력해주세요.")
+
+        answer = self.safe_answer(f"정답 번호 ({self.q_min}-{self.q_max}): ", self.q_min, self.q_max)
         self.quizzes.append(Quiz(question, choices, answer))
         self.save_state()
 
     # 퀴즈 목록
     def show_list(self):
-        print(f"\n등록된 퀴즈 목록 (총 {len(self.quizzes)}개)")
-        
         # 퀴즈가 없는 경우
         if not self.quizzes:
             print("\n등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가하세요")
             return
         
+        print(f"\n등록된 퀴즈 목록 (총 {len(self.quizzes)}개)")
         print("\n"+"-"*20)
         for i in range(len(self.quizzes)):
             print(f"[{i+1}] {self.quizzes[i].question}")
@@ -131,7 +167,7 @@ class QuizGame:
     def update_score(self):
         if len(self.quizzes) == 0: return
         self.has_played = True
-        this_score = (int)(self.score/len(self.quizzes)*100)
+        this_score = int(self.score/len(self.quizzes)*100)
         if this_score > self.high_score:
             self.high_score = this_score
             print(f"(축하) 새로운 최고 점수입니다!")
@@ -143,19 +179,3 @@ class QuizGame:
             print("\n아직 게임 플레이 기록이 없습니다.")
         else:
             print(f"\n최고 점수: {self.high_score}점")
-
-    # 예외처리
-    def safe_answer(self, prompt, min, max):
-        while True:
-            try:
-                val = input(prompt).strip()
-                if not val:
-                    print("다시 입력해주세요")
-                    continue
-                num = int(val)
-                if min<=num<=max:
-                    return num
-                else:
-                    print(f"{min}-{max} 사이의 숫자를 입력하세요")
-            except ValueError:
-                print("숫자 형식으로 입력하세요")
