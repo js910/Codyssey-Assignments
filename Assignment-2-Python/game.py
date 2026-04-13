@@ -122,13 +122,10 @@ class QuizGame:
 
     # 퀴즈 추가
     def add_quiz(self):
-        print("\n새로운 퀴즈 추가 (q 입력시 탈출\n")
+        print("\n새로운 퀴즈 추가\n")
         # 문제 입력
         while True:
             question = input("문제 내용: ").strip()
-            if question.lower() == 'q': 
-                print("추가를 취소합니다.")
-                return
             if question:
                 break
             print("오류: 문제 내용을 입력해야 합니다.")
@@ -138,9 +135,6 @@ class QuizGame:
         for i in range(self.q_max):
             while True:
                 choice = input(f"선택지 {i + 1}: ").strip()
-                if choice.lower() == 'q':
-                    print("추가를 취소합니다.")
-                    return
                 if choice:
                     choices.append(choice)
                     break

@@ -1,6 +1,6 @@
 # main.py
 from game import QuizGame
-from data import Quiz
+from quiz import Quiz
 
 # 기본 퀴즈 목록
 default_quizzes = [
