@@ -30,6 +30,9 @@ class QuizGame:
                     print(f"{min_val}-{max_val} 사이의 숫자를 입력하세요")
             except ValueError:
                 print("숫자 형식으로 입력하세요")
+            except (KeyboardInterrupt, EOFError):
+                print("\n입력이 중단되었습니다.")
+                raise
 
     # state.json 불러오기
     def load_state(self):
@@ -37,7 +40,7 @@ class QuizGame:
             #예외처리
             if not os.path.exists(self.file_path):
                 self.quizzes = self.default_quizzes
-                return            
+                return
             with open(self.file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 self.quizzes = [Quiz(q["question"], q["choices"], q["answer"]) for q in data.get("quizzes", [])]
@@ -63,7 +66,7 @@ class QuizGame:
     # 메뉴 표시
     def show_menu(self):
         print("="*30)
-        print("\n  퀴즈 게임")
+        print("  퀴즈 게임")
         print("1. 퀴즈 풀기")
         print("2. 퀴즈 추가")
         print("3. 퀴즈 목록")
