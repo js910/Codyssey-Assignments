@@ -241,11 +241,22 @@ docker exec codyssey-dev-container cat /mnt/save.txt
 
 <br>
 
-## 11. Github 설정 및 연동 증거
+## 11. Github 설정 및 연동
 
-* **Repository 주소:** [https://github.com/js910/Codyssey-Assignments](https://github.com/js910/Codyssey-Assignments)
+### 1. 연동
 
-   <img src="./assets/11-docker-git.png" width="600">
+ <img src="./assets/11-docker-git.png" width="600">
+
+### 2. SSH Key
+ssh 키는 비대칭 암호화 방식을 이용한 '디지털 신분증'
+
+* 생성 및 등록
+> <img src="./assets/17-github-ssh.png" width="600">
+
+* 갓허브 등록
+> <img src="./assets/18-github-ssh2.png" width="600">
+
+
 
 <br>
 
