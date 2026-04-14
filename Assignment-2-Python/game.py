@@ -20,7 +20,7 @@ class QuizGame:
     # state.json 불러오기
     def load_state(self):
         if not os.path.exists(self.file_path):
-            self.quizzes = self.default_quizzes
+            self.quizzes = []
             return
         
         try:
@@ -29,10 +29,9 @@ class QuizGame:
                 self.quizzes = self.validate_data(data)
                 self.high_score = data.get("best_score", 0)
                 self.has_played = data.get("has_played", False)
-
         except (json.JSONDecodeError, ValueError) as e:
-            print(f"데이터 로드 실패: {e}\n기본 설정으로 시작합니다.")
-            self.quizzes = self.default_quizzes
+            print(f"데이터 로드 실패: {e}\n새로 시작합니다.")
+            self.quizzes = []
 
     # state.json 저장하기
     def save_state(self):
@@ -64,15 +63,22 @@ class QuizGame:
         
         for i in range(len(quizzes_data)):
             q = quizzes_data[i]
-            question = q.get("question")
-            choices = q.get("choices")
+            question = q.get("question", "").strip()
+            choices = q.get("choices", [])
             answer = q.get("answer")
 
-            if not question or not isinstance(choices, list) or len(choices) != self.q_max:
-                raise ValueError(f"{i+1}번째 퀴즈의 데이터가 불완전합니다.")
+            if not question or not isinstance(choices, list) or len(choices) != self.q_max or answer is None:
+                raise ValueError(f"{i+1}번째 퀴즈에 누락된 항목이 있습니다.")
+
+            if not all(c.strip() for c in choices):
+                raise ValueError(f"{i+1}번째 퀴즈의 선택지 중 비어있는 항목이 있습니다.")
+
+            if len(choices) != self.q_max:
+                raise ValueError(f"{i+1}번째 퀴즈의 선택지 개수 오류")
+
             if not isinstance(answer, int) or not (self.q_min <= answer <= self.q_max):
                 raise ValueError(f"{i+1}번째 퀴즈의 정답 범위를 확인하세요.")
-        
+
             validated_quizzes.append(Quiz(question, choices, answer))
         if not validated_quizzes:
             raise ValueError("유효한 퀴즈 없음")
@@ -96,9 +102,13 @@ class QuizGame:
    
     # 메뉴 표시
     def show_menu(self):
+        quiz_count = len(self.quizzes)
         print("\n" + "="*30)
-        print("  퀴즈 게임")
-        print("1. 퀴즈 풀기\n2. 퀴즈 추가\n3. 퀴즈 목록\n4. 점수 확인\n0. 종료")
+        print(f"  퀴즈 게임")
+        print("1. "+("기본 "if quiz_count==0 else "")+"퀴즈 풀기")
+        print("2. "+("나만의 퀴즈 만들기"if quiz_count==0 else "퀴즈 추가"))
+        print("3. "+("기본 "if quiz_count==0 else "")+"퀴즈 목록")
+        print("4. 점수 확인\n0. 종료")
         print("="*30)
         return self.safe_answer("선택: ",0,4)
 
@@ -107,10 +117,20 @@ class QuizGame:
     # 퀴즈 풀기
     def start_quiz(self):
         if not self.quizzes:
-            print("\n등록된 퀴즈가 없습니다")
-            return
-        
-        print(f"\n퀴즈를 시작합니다 (총 {len(self.quizzes)}문제)\n"+"-"*20)
+            print("\n등록된 퀴즈가 없습니다.")
+            while True:
+                choice = input("기본 퀴즈로 진행하시겠습니까? (y/n): ").lower().strip()
+                if choice == 'y':
+                    self.quizzes = self.default_quizzes
+                    print(f"\n기본 퀴즈를 불러왔습니다 ({len(self.quizzes)}문제). 퀴즈를 시작합니다\n"+"-"*20)
+                    break
+                elif choice == 'n':
+                    print("퀴즈를 먼저 추가해 주세요.")
+                    return
+                else:
+                    print("잘못된 입력입니다. 'y' 또는 'n'를 입력해주세요.")      
+        else:
+            print(f"\n퀴즈를 시작합니다 (총 {len(self.quizzes)}문제)\n"+"-"*20)
 
         # 랜덤 셔플
         random_quiz = random.sample(self.quizzes, len(self.quizzes))
@@ -148,17 +168,16 @@ class QuizGame:
 
         answer = self.safe_answer(f"정답 번호 ({self.q_min}-{self.q_max}): ", self.q_min, self.q_max)
         self.quizzes.append(Quiz(question, choices, answer))
+        print("퀴즈가 성공적으로 추가되었습니다.")
         self.save_state()
 
     # 퀴즈 목록
     def show_list(self):
-        if not self.quizzes:
-            print("\n등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가하세요")
-            return
-        
-        print(f"\n등록된 퀴즈 목록 (총 {len(self.quizzes)}개)\n"+"-"*20)
-        for i in range(len(self.quizzes)):
-            print(f"[{i+1}] {self.quizzes[i].question}")
+        target = self.quizzes if self.quizzes else self.default_quizzes
+
+        print(f"\n퀴즈 목록 (총 {len(target)}개)\n"+"-"*20)
+        for i in range(len(target)):
+            print(f"[{i+1}] {target[i].question}")
         print("-"*20)
 
     # 최고점수 출력
@@ -172,9 +191,9 @@ class QuizGame:
     # --- 내부 함수 ---
     # 점수 표시
     def show_result(self, score):
-        total = len(self.quizzes)
-        current_score = int(score/total*100) if total > 0 else 0
-        print(f"\n{'='*30}\n결과: {total}문제 중 {score}문제 정답! ({current_score}점)\n{'='*30}")
+        quiz_count = len(self.quizzes)
+        current_score = int(score/quiz_count*100) if quiz_count > 0 else 0
+        print(f"\n{'='*30}\n결과: {quiz_count}문제 중 {score}문제 정답! ({current_score}점)\n{'='*30}")
         
         # 최고점수 기록
         self.has_played = True
