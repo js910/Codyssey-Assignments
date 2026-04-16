@@ -17,18 +17,18 @@ def get_input_matrix(size=3):
         try:
             line = input(f"{len(matrix)+1}행: ").strip()
             row = [float(x) for x in line.split()]
-            if len(row) != size: raise ValueError
+            if len(row) != size:
+                print(f"오류: {size}개를 입력해야 합니다.")
+                continue
             if any(val < 0.0 or val > 1.0 for val in row):
                 print("오류: 0에서 1까지의 숫자만 입력 가능합니다.")
                 continue
             matrix.append(row)
 
         except ValueError:
-            print(f"오류: {size}개의 숫자를 공백으로 구분해 입력하세요.")
+            print(f"오류: 숫자만 입력하세요.")
         except (KeyboardInterrupt, EOFError):
             raise
-        except Exception as e:
-            print(f"오류: {e}")
     return matrix
 
 # 모드1: 실행
