@@ -15,15 +15,20 @@ def get_input_matrix(size=3):
     matrix = []
     while len(matrix) < size:
         try:
-            line = input(f"{len(matrix)+1}행: ").split()
+            line = input(f"{len(matrix)+1}행: ").strip()
             row = [float(x) for x in line.split()]
             if len(row) != size: raise ValueError
             if any(val < 0.0 or val > 1.0 for val in row):
                 print("오류: 0에서 1까지의 숫자만 입력 가능합니다.")
                 continue
             matrix.append(row)
-        except:
+
+        except ValueError:
             print(f"오류: {size}개의 숫자를 공백으로 구분해 입력하세요.")
+        except (KeyboardInterrupt, EOFError):
+            raise
+        except Exception as e:
+            print(f"오류: {e}")
     return matrix
 
 # 모드1: 실행
@@ -34,7 +39,7 @@ def run_mode1():
     print("\n필터 B (3줄 입력, 공백 구분)")
     f_b = get_input_matrix(3)
     print("\n--- [2] 패턴 입력 ---")
-    print("\패턴 (3줄 입력, 공백 구분)")
+    print("패턴 (3줄 입력, 공백 구분)")
     p = get_input_matrix(3)
 
     start = time.perf_counter()
@@ -51,6 +56,6 @@ def run_mode1():
         print(f"A 점수: {score_a:.8f}\nB 점수: {score_b:.8f}")
         print("판정: 판정 불가")
     else:
-        print(f"\nA 점수: {score_a:.1f}\nB 점수: {score_b:.1f}")
-        print(f"연산 시간(평균/10회): {avg_ms:.3f} ms")
+        print(f"A 점수: {score_a:.1f}\nB 점수: {score_b:.1f}")
+        print(f"연산 시간(평균/10회): {avg_ms:.3f}ms")
         print(f"판정: {'A' if score_a > score_b else 'B'}")

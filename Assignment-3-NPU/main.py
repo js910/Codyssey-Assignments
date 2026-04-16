@@ -13,6 +13,7 @@ def main():
             if choice == '1': run_mode1()
             elif choice == '2': run_mode2()
             elif choice == '3': break
+            else: print("1~3 사이의 숫자를 입력해주세요")
     except (KeyboardInterrupt, EOFError):
         print("\n시스템이 강제 종료되었습니다.")
 
