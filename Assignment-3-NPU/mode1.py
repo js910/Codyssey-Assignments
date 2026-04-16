@@ -1,5 +1,6 @@
 # mode1.py
 import time
+import math
 
 # 공통: mac 연산
 def calculate_mac(matrix_a, matrix_b):
@@ -20,7 +21,7 @@ def get_input_matrix(size=3):
             if len(row) != size:
                 print(f"오류: {size}개를 입력해야 합니다.")
                 continue
-            if any(val < 0.0 or val > 1.0 for val in row):
+            if any(not math.isfinite(val) or val < 0.0 or val > 1.0 for val in row):
                 print("오류: 0에서 1까지의 숫자만 입력 가능합니다.")
                 continue
             matrix.append(row)
@@ -30,6 +31,9 @@ def get_input_matrix(size=3):
         except (KeyboardInterrupt, EOFError):
             raise
     return matrix
+
+# float(inf) 
+# float(nan) == float(nan)
 
 # 모드1: 실행
 def run_mode1():
