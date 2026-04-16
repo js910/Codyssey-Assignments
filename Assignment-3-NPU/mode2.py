@@ -28,7 +28,7 @@ def run_mode2():
         print(f"✓ size_{size}  필터 로드 완료 (Cross, X)")
 
     stats = {"total": 0, "pass": 0, "fail": 0, "failures": []}
-    perf_data = {} # 평균 시간 저장용
+    perf_raw = {} # 평균 시간 저장용
 
     print("\n--- [2] 패턴 분석 ---")
     for p_key, p_val in patterns.items():
@@ -60,9 +60,11 @@ def run_mode2():
             sc_x = calculate_mac(input_data, f_x)
             t_end = time.perf_counter()
             total_ms += (t_end - t_start) * 1000
-        
         avg_ms = total_ms / iterations
-        perf_data[size_n] = avg_ms # 해당 크기의 평균 시간 갱신
+
+        if size_n not in perf_raw:
+            perf_raw[size_n] = []
+        perf_raw[size_n].append(avg_ms) # 해당 크기의 평균 시간 추가
 
         # 판정 (Epsilon)
         if abs(sc_cross - sc_x) < 1e-9: result = "UNDECIDED"
@@ -92,8 +94,9 @@ def run_mode2():
     # 성능 분석 표 출력
     print("\n--- [3] 성능 분석 (평균/10회) ---")
     print("크기 | 평균 시간(ms) | 연산 횟수")
-    for sz in sorted(perf_data.keys()):
-        print(f"{sz}x{sz} | {perf_data[sz]:.4f} | {sz*sz}")
+    for sz in sorted(perf_raw.keys()):
+        final_avg = sum(perf_raw[sz]) / len(perf_raw[sz])
+        print(f"{sz}x{sz} | {final_avg:.4f} | {sz*sz}")
 
     # 결과 요약
     print("\n--- [4] 결과 요약 ---")
