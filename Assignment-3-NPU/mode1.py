@@ -16,10 +16,10 @@ def get_input_matrix(size=3):
     while len(matrix) < size:
         try:
             line = input(f"{len(matrix)+1}행: ").split()
-            row = [float(x) for x in line]
+            row = [float(x) for x in line.split()]
             if len(row) != size: raise ValueError
             if any(val < 0.0 or val > 1.0 for val in row):
-                print("오류: 0 또는 1만 입력 가능합니다.")
+                print("오류: 0에서 1까지의 숫자만 입력 가능합니다.")
                 continue
             matrix.append(row)
         except:

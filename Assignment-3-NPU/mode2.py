@@ -43,7 +43,8 @@ def run_mode2():
         f_x = f_set.get("x")
 
         # 행렬 크기 및 필터 존재 여부 검증
-        if f_cross is None or f_x is None or len(input_data) != size_n:
+        is_valid = (len(input_data) == size_n) and all(len(row) == size_n for row in input_data)
+        if f_cross is None or f_x is None or not is_valid:
             stats["total"] += 1
             stats["fail"] += 1
             stats["failures"].append(f"{p_key}: 스키마 또는 크기 불일치")
