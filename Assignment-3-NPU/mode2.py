@@ -13,7 +13,7 @@ def normalize_label(label):
 # 모드2: 실행
 def run_mode2():
     try:
-        with open('data.json', 'r') as f:
+        with open('assets/data.json', 'r') as f:
             data = json.load(f)
     except FileNotFoundError:
         print("오류: data.json 파일이 없습니다.")
